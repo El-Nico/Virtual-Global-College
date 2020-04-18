@@ -5,9 +5,8 @@
  */
 package NicholasEruba.vgc;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -20,6 +19,7 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
+        setPane(new LoginEnrollPanel(), this);
     }
 
     /**
@@ -32,6 +32,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("VirtualGlobalCollege");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -50,6 +51,8 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+   static MainFrame x= new MainFrame();
+   static PopupFrame popupFrame= new PopupFrame();
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -77,16 +80,28 @@ public class MainFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainFrame().setVisible(true);
+                x.setVisible(true);
             }
         });
-        
-       
     }
-   
+    public static void setPane(JPanel pane, JFrame frame){
+        frame.setContentPane(pane);
     }
-
+    public  static void setPane(JPanel pane){
+        x.setContentPane(pane);
+        toggleVisible(x);
+        x.pack();
+    }
+    
+    public static void toggleVisible(JFrame frame){
+        frame.setVisible(false);
+        frame.setVisible(true);
+    }
+    
+    public static void launchPopup(String functionality){
+        popupFrame.display(new TakeAttendanceView(),functionality);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-
+}

@@ -5,6 +5,8 @@
  */
 package NicholasEruba.vgc;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -13,13 +15,17 @@ import javax.swing.JPanel;
  * @author Nicholas
  */
 public class MainFrame extends javax.swing.JFrame {
+   
+  
 
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
         initComponents();
-        setPane(new LoginEnrollPanel(), this);
+        //center the frame on display
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
     }
 
     /**
@@ -50,9 +56,12 @@ public class MainFrame extends javax.swing.JFrame {
 
     /**
      * @param args the command line arguments
-     */
-   static MainFrame x= new MainFrame();
-   static PopupFrame popupFrame= new PopupFrame();
+     */ 
+    private static String loginState="login-as-any";
+    static MainFrame mainframe= new MainFrame();
+    static DatabaseAPI db = new DatabaseAPI();
+    static PopupFrame popupFrame = new PopupFrame();
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -78,28 +87,37 @@ public class MainFrame extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                x.setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            mainframe.setVisible(true);
+            setPane(new LoginEnrollPanel());
+            //mainframe.db.getFaculties();
         });
     }
-    public static void setPane(JPanel pane, JFrame frame){
+   
+  static void setLoginState(String loginState) {
+        MainFrame.loginState=loginState;
+    }
+  static String getLoginState(){
+  return MainFrame.loginState;
+  }
+    public static void setPane(JPanel pane, JFrame frame) {
         frame.setContentPane(pane);
     }
-    public  static void setPane(JPanel pane){
-        x.setContentPane(pane);
-        toggleVisible(x);
-        x.pack();
+
+    public static void setPane(JPanel pane) {
+        mainframe.setContentPane(pane);
+        toggleVisible(mainframe);
+        mainframe.pack();
+        //db.getFaculties();
     }
-    
-    public static void toggleVisible(JFrame frame){
+
+    public static void toggleVisible(JFrame frame) {
         frame.setVisible(false);
         frame.setVisible(true);
     }
-    
-    public static void launchPopup(String functionality){
-        popupFrame.display(new TakeAttendanceView(),functionality);
+
+    public static void launchPopup(String functionality) {
+        popupFrame.display(new TakeAttendanceView(), functionality);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

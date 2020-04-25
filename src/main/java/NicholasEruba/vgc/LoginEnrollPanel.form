@@ -28,75 +28,84 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                      <Component id="loginRadioButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
-                              <Component id="emailLabel" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="enrollTeacherRadioButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="enrollStudentRadioButton" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="passwordLabel" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="selectFacultyLabel" alignment="1" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
-                              <Component id="emailTextField" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="selectFacultyCombo" min="-2" max="-2" attributes="0"/>
-                                  <Component id="passwordTextField" min="-2" pref="87" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
+                          <Component id="submitButton" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="loginRadioButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="submitButton" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="enrollTeacherRadioButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="enrollStudentRadioButton" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="firstNameLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="lastNameLabel" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="118" max="-2" attributes="0"/>
+                                  <Component id="emailLabel" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="passwordLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="selectFacultyLabel" alignment="1" min="-2" max="-2" attributes="0"/>
                           </Group>
+                      </Group>
+                      <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="firstNameTextField" min="-2" max="-2" attributes="0"/>
+                          <Component id="lastNameTextField" min="-2" max="-2" attributes="0"/>
+                          <Component id="emailTextField" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="passwordTextField" alignment="0" min="-2" pref="87" max="-2" attributes="0"/>
+                          <Component id="selectFacultyCombo" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="48" max="32767" attributes="0"/>
+              <EmptySpace pref="29" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="firstNameLabel" min="-2" max="-2" attributes="0"/>
+                  <Component id="firstNameTextField" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lastNameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lastNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="emailLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="emailTextField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="passwordLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="passwordTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="selectFacultyCombo" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="selectFacultyLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="passwordTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="passwordLabel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="enrollTeacherRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="loginRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="enrollStudentRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="selectFacultyLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="selectFacultyCombo" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="loginRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="enrollTeacherRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="enrollStudentRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="16" max="32767" attributes="0"/>
               <Component id="submitButton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="75" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -128,6 +137,7 @@
     <Component class="javax.swing.JRadioButton" name="enrollTeacherRadioButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Enroll as teacher"/>
+        <Property name="actionCommand" type="java.lang.String" value="enroll-as-teacher"/>
       </Properties>
       <Events>
         <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="enrollTeacherRadioButtonItemStateChanged"/>
@@ -136,6 +146,7 @@
     <Component class="javax.swing.JRadioButton" name="enrollStudentRadioButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Enroll as student"/>
+        <Property name="actionCommand" type="java.lang.String" value="enroll-as-student"/>
       </Properties>
       <Events>
         <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="enrollStudentRadioButtonItemStateChanged"/>
@@ -170,14 +181,36 @@
     <Component class="javax.swing.JRadioButton" name="loginRadioButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="login"/>
+        <Property name="actionCommand" type="java.lang.String" value="generic-login"/>
       </Properties>
       <Events>
         <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="loginRadioButtonItemStateChanged"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="loginRadioButtonActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="selectFacultyLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Select Faculty"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="lastNameTextField">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="lastname"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="firstNameTextField">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="firstname"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lastNameLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Lastname"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="firstNameLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Firstname"/>
       </Properties>
     </Component>
   </SubComponents>

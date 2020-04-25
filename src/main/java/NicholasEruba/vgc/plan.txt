@@ -1,0 +1,5 @@
+enroll as a student,
+post to /students
+get all faculties
+post to /student/id/courses array
+create the joptionpane dialog

@@ -5,7 +5,9 @@
  */
 package NicholasEruba.vgc;
 
-import javax.swing.JComboBox;
+import java.awt.event.ItemEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -16,8 +18,27 @@ public class RolesPanel extends javax.swing.JPanel {
     /**
      * Creates new form RolesPanel
      */
-    public RolesPanel() {
+    Map thisUser;
+    UserRole thisUserRole;
+
+    public RolesPanel(HashMap userType) {
         initComponents();
+        //further init based on information from login panel
+        thisUser = userType;
+        String roleAndName = thisUser.get("usertype").toString() + " | " + thisUser.get("firstname").toString() + " " + thisUser.get("lastname").toString();
+        setBorder(javax.swing.BorderFactory.createTitledBorder(roleAndName));
+        initMenu(thisUser.get("usertype").toString());
+        switch(thisUser.get("usertype").toString()){
+            case "admin":
+                thisUserRole = new AdminRole();
+                break;
+            case "student":
+                thisUserRole = new StudentRole();
+                break;
+            case "teacher":
+                thisUserRole = new TeacherFacultyRole();
+                break;
+        }
     }
 
     /**
@@ -29,22 +50,38 @@ public class RolesPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jComboBox1 = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        rolesPanelTextArea = new javax.swing.JTextArea();
+        menuComboBox = new javax.swing.JComboBox<>();
+        returnToLoginButton = new javax.swing.JButton();
+        menuComboBoxLabel = new javax.swing.JLabel();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder("RolesPanel"));
+        setBorder(javax.swing.BorderFactory.createTitledBorder("roles-panel"));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Take Attendance", "View Fees", "Check result", "Do sming" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        rolesPanelTextArea.setColumns(20);
+        rolesPanelTextArea.setRows(5);
+        jScrollPane1.setViewportView(rolesPanelTextArea);
+
+        menuComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        menuComboBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                menuComboBoxItemStateChanged(evt);
+            }
+        });
+        menuComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                menuComboBoxActionPerformed(evt);
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        returnToLoginButton.setText("Return to Login");
+        returnToLoginButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                returnToLoginButtonActionPerformed(evt);
+            }
+        });
+
+        menuComboBoxLabel.setText("Menu:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -53,37 +90,71 @@ public class RolesPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(78, 78, 78)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 696, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(88, 88, 88)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(72, Short.MAX_VALUE))
+                        .addGap(47, 47, 47)
+                        .addComponent(menuComboBoxLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(menuComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38)
+                        .addComponent(returnToLoginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(menuComboBoxLabel)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(menuComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(returnToLoginButton)))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void returnToLoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnToLoginButtonActionPerformed
         // TODO add your handling code here:
-        JComboBox<String> combo = (JComboBox<String>) evt.getSource();
-        String selectedMenuItem = (String) combo.getSelectedItem();
+        MainFrame.setPane(new LoginEnrollPanel());
+    }//GEN-LAST:event_returnToLoginButtonActionPerformed
+
+    private void menuComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_menuComboBoxItemStateChanged
+        // TODO add your handling code here:
+        //get selected menu action
+//        if(evt.getStateChange() == ItemEvent.SELECTED){
+//        System.out.println(menuComboBox.getSelectedItem().toString());
+//        }
         
-        //launch popup with selected
-        MainFrame.launchPopup(selectedMenuItem);
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_menuComboBoxItemStateChanged
+
+    private void menuComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuComboBoxActionPerformed
+        // TODO add your handling code here:
+        thisUserRole.processMenuOption(menuComboBox.getSelectedItem().toString());
+    }//GEN-LAST:event_menuComboBoxActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JComboBox<String> menuComboBox;
+    private javax.swing.JLabel menuComboBoxLabel;
+    private javax.swing.JButton returnToLoginButton;
+    private javax.swing.JTextArea rolesPanelTextArea;
     // End of variables declaration//GEN-END:variables
+
+    private void initMenu(String userType) {
+        switch (userType) {
+            case "admin":
+                menuComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"create-new-faculty", "do some shit"}));
+                break;
+            case "student":
+                menuComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"pay-fees"}));
+                break;
+            case "teacher":
+                menuComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"take-attendance", "view-lesson-plan"}));
+                break;
+        }
+    }
 }

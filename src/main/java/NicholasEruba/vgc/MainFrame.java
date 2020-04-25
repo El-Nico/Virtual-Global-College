@@ -15,17 +15,13 @@ import javax.swing.JPanel;
  * @author Nicholas
  */
 public class MainFrame extends javax.swing.JFrame {
-   
-  
 
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
         initComponents();
-        //center the frame on display
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+        furtherInitComponents();
     }
 
     /**
@@ -56,9 +52,9 @@ public class MainFrame extends javax.swing.JFrame {
 
     /**
      * @param args the command line arguments
-     */ 
-    private static String loginState="login-as-any";
-    static MainFrame mainframe= new MainFrame();
+     */
+    private static String loginState = "login-as-any";
+    static MainFrame mainframe = new MainFrame();
     static DatabaseAPI db = new DatabaseAPI();
     static PopupFrame popupFrame = new PopupFrame();
 
@@ -93,13 +89,15 @@ public class MainFrame extends javax.swing.JFrame {
             //mainframe.db.getFaculties();
         });
     }
-   
-  static void setLoginState(String loginState) {
-        MainFrame.loginState=loginState;
+
+    static void setLoginState(String loginState) {
+        MainFrame.loginState = loginState;
     }
-  static String getLoginState(){
-  return MainFrame.loginState;
-  }
+
+    static String getLoginState() {
+        return MainFrame.loginState;
+    }
+
     public static void setPane(JPanel pane, JFrame frame) {
         frame.setContentPane(pane);
     }
@@ -120,6 +118,14 @@ public class MainFrame extends javax.swing.JFrame {
         popupFrame.display(new TakeAttendanceView(), functionality);
     }
 
+    private void furtherInitComponents() {
+        //center the frame on display
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+        //tteacher with a particular faculty
+        //student
+        //admin
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

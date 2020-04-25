@@ -7,16 +7,22 @@ package NicholasEruba.vgc;
 
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  *
@@ -62,11 +68,91 @@ import java.util.List;
 public class DatabaseAPI {
 
     Firestore db;
+    private Map<String, Object> userType;
 
     public DatabaseAPI() {
         initializeDatabase();
+        userType = new HashMap();
     }
 
+    //SETTERS AND GETTERS
+    public Map<String, Object> getUserType() {
+        return userType;
+    }
+
+    ///////CRUD OPERATIONS
+    /////////////CREATE
+    //add new teacher and their faculty to database
+    boolean enrollAsTeacher(String emailUser, String password, String firstName, String lastName, String faculty) {
+        try {
+            DocumentReference docRef = db.collection("faculties").document(faculty).collection("teachers").document();
+            DocumentReference docRefUsers = db.collection("users").document();
+            // Add document data  with user data using a hashmap
+            Map<String, Object> data = new HashMap<>();
+            data.put("firstname", firstName);
+            data.put("lastname", lastName);
+            data.put("email", emailUser);
+            data.put("password", password);
+
+            //users collection
+            Map<String, Object> dataUser = new HashMap<>();
+            dataUser.put("firstname", firstName);
+            dataUser.put("lastname", lastName);
+            dataUser.put("email", emailUser);
+            dataUser.put("password", password);
+            dataUser.put("usertype", "teacher");
+            //asynchronously write data
+            ApiFuture<WriteResult> resultUser = docRefUsers.set(dataUser);
+            ApiFuture<WriteResult> result = docRef.set(data);
+            //check for success
+            if (result.get().getUpdateTime() != null && resultUser.get().getUpdateTime() != null) {
+                System.out.println(result.get().getUpdateTime().toString() + resultUser.get().getUpdateTime().toString());
+                userType = dataUser;
+                return true;
+            }
+        } catch (Exception e) {
+            ErrorPopup.showMessage(true, "COULD NOT ENROLL TEACHER", Arrays.toString(e.getStackTrace()));
+        }
+        return false;
+    }
+
+    //add new student to database
+    boolean enrollAsStudent(String emailUser, String password, String firstName, String lastName) {
+        try {
+            DocumentReference docRef = db.collection("students").document();
+            DocumentReference docRefUsers = db.collection("users").document();
+            // Add document data  with student data using a hashmap
+            Map<String, Object> data = new HashMap<>();
+            data.put("firstname", firstName);
+            data.put("lastname", lastName);
+            data.put("email", emailUser);
+            data.put("password", password);
+
+            //users collection
+            Map<String, Object> dataUser = new HashMap<>();
+            dataUser.put("firstname", firstName);
+            dataUser.put("lastname", lastName);
+            dataUser.put("email", emailUser);
+            dataUser.put("password", password);
+            dataUser.put("usertype", "student");
+            //asynchronously write data
+            ApiFuture<WriteResult> resultUser = docRefUsers.set(dataUser);
+            ApiFuture<WriteResult> result = docRef.set(data);
+
+            //check for success
+            if (result.get().getUpdateTime() != null && resultUser.get().getUpdateTime() != null) {
+                System.out.println(result.get().getUpdateTime().toString() + resultUser.get().getUpdateTime().toString());
+                userType = dataUser;
+                return true;
+            }
+        } catch (Exception e) {
+            ErrorPopup.showMessage(true, "COULD NOT ENROLL STUDENT", Arrays.toString(e.getStackTrace()));
+        }
+        return false;
+    }
+
+    ////////////READ
+    //get all faculties from database
     public ArrayList<String> getFaculties() {
         ArrayList<String> faculties = new ArrayList<>();
         try { // asynchronously retrieve all users
@@ -80,12 +166,40 @@ public class DatabaseAPI {
                 //System.out.println(document.getString("name"));
             }
             return faculties;
-        } catch (Exception e) {
-            System.out.println("Something went wrong at getfaculties");
-            e.printStackTrace();
+        } catch (InterruptedException | ExecutionException e) {
+            ErrorPopup.showMessage(true, "COULD NOT GET FACULTIES", Arrays.toString(e.getStackTrace()));
         }
         return faculties;
     }
+
+    boolean tryLogin(String emailUser, String password) {
+        boolean foundThisUser = false;
+        try { // asynchronously retrieve all users
+            ApiFuture<QuerySnapshot> query = db.collection("users").get();
+            // ...
+            // query.get() blocks on response
+            QuerySnapshot querySnapshot = query.get();
+            List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
+            for (QueryDocumentSnapshot document : documents) {
+                System.out.println(document.getString("email"));
+                if (document.getString("email").equals(emailUser) && document.getString("password").equals(password)) {
+                    userType.put("firstname", document.getString("firstname"));
+                    userType.put("lastname", document.getString("lastname"));
+                    userType.put("email", document.getString("email"));
+                    userType.put("password", document.getString("password"));
+                    userType.put("usertype", document.getString("usertype"));
+                    foundThisUser = true;
+                    return foundThisUser;
+                }
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            ErrorPopup.showMessage(true, "COULD NOT GET FACULTIES", Arrays.toString(e.getStackTrace()));
+        }
+        ErrorPopup.showMessage(true, "THE USER WAS NOT FOUND", "Please make sure the user and password is correct");
+        return foundThisUser;
+    }
+    ////////////UPDATE
+    ////////////DELETE
 
     private void initializeDatabase() {
         //initialize the database
@@ -100,8 +214,7 @@ public class DatabaseAPI {
 
             db = FirestoreClient.getFirestore();
         } catch (Exception e) {
-            System.out.println("something went wrong at initialize database");
-            e.printStackTrace();
+            ErrorPopup.showMessage(true, "INITIALIZE DATABASE FAILED", Arrays.toString(e.getStackTrace()));
         }
 
     }

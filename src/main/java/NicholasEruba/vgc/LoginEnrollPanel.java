@@ -7,6 +7,8 @@ package NicholasEruba.vgc;
 
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
+import javax.swing.ButtonModel;
 import javax.swing.DefaultComboBoxModel;
 
 /**
@@ -43,6 +45,10 @@ public class LoginEnrollPanel extends javax.swing.JPanel {
         submitButton = new javax.swing.JButton();
         loginRadioButton = new javax.swing.JRadioButton();
         selectFacultyLabel = new javax.swing.JLabel();
+        lastNameTextField = new javax.swing.JTextField();
+        firstNameTextField = new javax.swing.JTextField();
+        lastNameLabel = new javax.swing.JLabel();
+        firstNameLabel = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder("Login/Enroll"));
 
@@ -60,6 +66,7 @@ public class LoginEnrollPanel extends javax.swing.JPanel {
         passwordTextField.setText("password");
 
         enrollTeacherRadioButton.setText("Enroll as teacher");
+        enrollTeacherRadioButton.setActionCommand("enroll-as-teacher");
         enrollTeacherRadioButton.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 enrollTeacherRadioButtonItemStateChanged(evt);
@@ -67,6 +74,7 @@ public class LoginEnrollPanel extends javax.swing.JPanel {
         });
 
         enrollStudentRadioButton.setText("Enroll as student");
+        enrollStudentRadioButton.setActionCommand("enroll-as-student");
         enrollStudentRadioButton.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 enrollStudentRadioButtonItemStateChanged(evt);
@@ -88,71 +96,94 @@ public class LoginEnrollPanel extends javax.swing.JPanel {
         });
 
         loginRadioButton.setText("login");
+        loginRadioButton.setActionCommand("generic-login");
         loginRadioButton.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 loginRadioButtonItemStateChanged(evt);
             }
         });
+        loginRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginRadioButtonActionPerformed(evt);
+            }
+        });
 
         selectFacultyLabel.setText("Select Faculty");
+
+        lastNameTextField.setText("lastname");
+
+        firstNameTextField.setText("firstname");
+
+        lastNameLabel.setText("Lastname");
+
+        firstNameLabel.setText("Firstname");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(49, 49, 49)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(69, 69, 69)
-                                .addComponent(emailLabel))
-                            .addComponent(passwordLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(selectFacultyLabel, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(52, 52, 52)
-                                .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(50, 50, 50)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(selectFacultyCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
                         .addComponent(loginRadioButton)
-                        .addGap(18, 18, 18)
+                        .addGap(25, 25, 25)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(submitButton)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(enrollTeacherRadioButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(enrollStudentRadioButton)))))
-                .addContainerGap(48, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(enrollStudentRadioButton))
+                            .addComponent(submitButton)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(firstNameLabel)
+                            .addComponent(lastNameLabel)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(118, 118, 118)
+                                    .addComponent(emailLabel))
+                                .addComponent(passwordLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(selectFacultyLabel, javax.swing.GroupLayout.Alignment.TRAILING)))
+                        .addGap(52, 52, 52)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(selectFacultyCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(46, 46, 46)
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(firstNameLabel)
+                    .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lastNameLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(emailLabel)
                     .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passwordLabel)
-                    .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(selectFacultyCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(selectFacultyLabel))
-                .addGap(13, 13, 13)
+                    .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwordLabel))
+                .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(enrollTeacherRadioButton)
-                    .addComponent(loginRadioButton)
-                    .addComponent(enrollStudentRadioButton))
+                    .addComponent(selectFacultyLabel)
+                    .addComponent(selectFacultyCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(loginRadioButton)
+                    .addComponent(enrollTeacherRadioButton)
+                    .addComponent(enrollStudentRadioButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addComponent(submitButton)
-                .addContainerGap(75, Short.MAX_VALUE))
+                .addGap(32, 32, 32))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -166,44 +197,72 @@ public class LoginEnrollPanel extends javax.swing.JPanel {
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         // TODO add your handling code here:
-        MainFrame.setPane(new RolesPanel());
+        if (loginEnroll(LoginEnrollGroup.getSelection().getActionCommand(), emailTextField.getText(), passwordTextField.getText())) {
+//            switch (MainFrame.db.getUserType()) {
+//                case "student":
+//                    MainFrame.setPane(new StudentPanel());
+//                    break;
+//                case "teacher":
+//                    MainFrame.setPane(new TeacherFacultyPanel());
+//                    break;
+//            }
+            MainFrame.setPane(new RolesPanel((HashMap) MainFrame.db.getUserType()));
+        }
     }//GEN-LAST:event_submitButtonActionPerformed
 
     private void loginRadioButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_loginRadioButtonItemStateChanged
         // TODO add your handling code here:
-          if (evt.getStateChange() == ItemEvent.SELECTED) {
-        //change submit button  etc
-        MainFrame.setLoginState("login-as-any");
-        selectFacultyCombo.setVisible(false);
-        selectFacultyLabel.setVisible(false);
-        submitButton.setText("Login");
-    }
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            //change submit button  etc
+            MainFrame.setLoginState("login-as-any");
+            selectFacultyCombo.setVisible(false);
+            selectFacultyLabel.setVisible(false);
+            firstNameLabel.setVisible(false);
+            firstNameTextField.setVisible(false);
+            lastNameLabel.setVisible(false);
+            lastNameTextField.setVisible(false);
+            MainFrame.mainframe.pack();
+            submitButton.setText("Login");
+        }
     }//GEN-LAST:event_loginRadioButtonItemStateChanged
 
     private void enrollTeacherRadioButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_enrollTeacherRadioButtonItemStateChanged
         // TODO add your handling code here:
-          if (evt.getStateChange() == ItemEvent.SELECTED) {
-        //change submit button  etc
-        MainFrame.setLoginState("enroll-as-teacher");
-        selectFacultyCombo.setVisible(true);
-        selectFacultyLabel.setVisible(true);
-        submitButton.setText("Enroll as Teacher");
-    }
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            //change submit button  etc
+            MainFrame.setLoginState("enroll-as-teacher");
+            selectFacultyCombo.setVisible(true);
+            selectFacultyLabel.setVisible(true);
+            firstNameLabel.setVisible(true);
+            firstNameTextField.setVisible(true);
+            lastNameLabel.setVisible(true);
+            lastNameTextField.setVisible(true);
+            MainFrame.mainframe.pack();
+            submitButton.setText("Enroll as Teacher");
+        }
     }//GEN-LAST:event_enrollTeacherRadioButtonItemStateChanged
 
     private void enrollStudentRadioButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_enrollStudentRadioButtonItemStateChanged
         // TODO add your handling code here:
-         if (evt.getStateChange() == ItemEvent.SELECTED) {
-        //change submit button  etc
-        MainFrame.setLoginState("enroll-as-student");
-        selectFacultyCombo.setVisible(false);
-        selectFacultyLabel.setVisible(false);
-        submitButton.setText("Enroll as Student");
-         }
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            //change submit button  etc
+            MainFrame.setLoginState("enroll-as-student");
+            selectFacultyCombo.setVisible(false);
+            selectFacultyLabel.setVisible(false);
+            firstNameLabel.setVisible(true);
+            firstNameTextField.setVisible(true);
+            lastNameLabel.setVisible(true);
+            lastNameTextField.setVisible(true);
+            MainFrame.mainframe.pack();
+            submitButton.setText("Enroll as Student");
+        }
     }//GEN-LAST:event_enrollStudentRadioButtonItemStateChanged
 
+    private void loginRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginRadioButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_loginRadioButtonActionPerformed
     
-    private void furtherInitComponents(){
+    private void furtherInitComponents() {
         //group radio buttons
         LoginEnrollGroup.add(loginRadioButton);
         LoginEnrollGroup.add(enrollTeacherRadioButton);
@@ -211,10 +270,14 @@ public class LoginEnrollPanel extends javax.swing.JPanel {
         //select defaults(remove dropdown)
         selectFacultyCombo.setVisible(false);
         selectFacultyLabel.setVisible(false);
+        firstNameLabel.setVisible(false);
+        firstNameTextField.setVisible(false);
+        lastNameLabel.setVisible(false);
+        lastNameTextField.setVisible(false);
         loginRadioButton.setSelected(true);
         //get list of faculties and add to dropdown
         selectFacultyCombo.setModel(new DefaultComboBoxModel(MainFrame.db.getFaculties().toArray()));
-       
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -223,6 +286,10 @@ public class LoginEnrollPanel extends javax.swing.JPanel {
     private javax.swing.JTextField emailTextField;
     private javax.swing.JRadioButton enrollStudentRadioButton;
     private javax.swing.JRadioButton enrollTeacherRadioButton;
+    private javax.swing.JLabel firstNameLabel;
+    private javax.swing.JTextField firstNameTextField;
+    private javax.swing.JLabel lastNameLabel;
+    private javax.swing.JTextField lastNameTextField;
     private javax.swing.JRadioButton loginRadioButton;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JTextField passwordTextField;
@@ -230,4 +297,18 @@ public class LoginEnrollPanel extends javax.swing.JPanel {
     private javax.swing.JLabel selectFacultyLabel;
     private javax.swing.JButton submitButton;
     // End of variables declaration//GEN-END:variables
+
+    private boolean loginEnroll(String selection, String emailUser, String password) {
+        switch (selection) {
+            case "generic-login":
+                return MainFrame.db.tryLogin(emailUser, password);
+            case "enroll-as-teacher":
+                return MainFrame.db.enrollAsTeacher(emailUser, password, firstNameTextField.getText(), lastNameTextField.getText(), selectFacultyCombo.getSelectedItem().toString());
+            case "enroll-as-student":
+                return MainFrame.db.enrollAsStudent(emailUser, password, firstNameTextField.getText(), lastNameTextField.getText());
+            default:
+                ErrorPopup.showMessage(true, "Not A Login Type", "how in middle-earth did we get here");
+        }
+        return false;
+    }
 }

@@ -82,6 +82,25 @@ public class DatabaseAPI {
 
     ///////CRUD OPERATIONS
     /////////////CREATE
+    boolean createFaculty(String facultyName) {
+        try {
+            DocumentReference docRef = db.collection("faculties").document(facultyName);
+            // Add document data  with user data using a hashmap
+            Map<String, Object> data = new HashMap<>();
+            data.put("name", facultyName);
+
+            //asynchronously write data
+            ApiFuture<WriteResult> result = docRef.set(data);
+            //check for success
+            if (result.get().getUpdateTime() != null) {
+                ErrorPopup.showMessage(false, "FACULTY CREATED", " faculty "+facultyName+" has been successfully created");
+                return true;
+            }
+        } catch (Exception e) {
+            ErrorPopup.showMessage(true, "COULD NOT ENROLL TEACHER", Arrays.toString(e.getStackTrace()));
+        }
+        return false;
+    }
     //add new teacher and their faculty to database
     boolean enrollAsTeacher(String emailUser, String password, String firstName, String lastName, String faculty) {
         try {
@@ -218,4 +237,6 @@ public class DatabaseAPI {
         }
 
     }
+
+    
 }

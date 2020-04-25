@@ -20,4 +20,8 @@ public class PopupFrame extends MainFrame{
         this.pack();
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
+
+    void dismiss() {
+       dispose();
+    }
 }

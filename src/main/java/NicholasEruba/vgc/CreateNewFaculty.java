@@ -27,21 +27,59 @@ public class CreateNewFaculty extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        facultyNameLabel = new javax.swing.JLabel();
+        facultyNameTextField = new javax.swing.JTextField();
+        createButton = new javax.swing.JButton();
+
         setBorder(javax.swing.BorderFactory.createTitledBorder("Create New Faculty"));
+
+        facultyNameLabel.setText("Faculty Name");
+
+        createButton.setText("Create");
+        createButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 388, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(facultyNameLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(facultyNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(createButton))
+                .addContainerGap(144, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 277, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(facultyNameTextField)
+                    .addComponent(facultyNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(46, 46, 46)
+                .addComponent(createButton)
+                .addContainerGap(177, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
+        // TODO add your handling code here:
+        if(MainFrame.db.createFaculty(facultyNameTextField.getText())){
+            MainFrame.popupFrame.dismiss();
+        }
+    }//GEN-LAST:event_createButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton createButton;
+    private javax.swing.JLabel facultyNameLabel;
+    private javax.swing.JTextField facultyNameTextField;
     // End of variables declaration//GEN-END:variables
 }

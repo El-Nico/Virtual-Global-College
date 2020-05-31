@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Nicholas
+ * @author Nicholas Chibuike-Eruba 18630
  */
 public class ErrorPopup {
     public static void showMessage(boolean error, String title, String message){

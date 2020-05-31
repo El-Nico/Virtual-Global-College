@@ -11,7 +11,7 @@ import java.util.Map;
 
 /**
  *
- * @author Nicholas
+ * @author Nicholas Chibuike-Eruba 18630
  */
 public class RolesPanel extends javax.swing.JPanel {
 
@@ -36,9 +36,13 @@ public class RolesPanel extends javax.swing.JPanel {
                 thisUserRole = new StudentRole();
                 break;
             case "teacher":
-                thisUserRole = new TeacherFacultyRole();
+                thisUserRole = new TeacherFacultyRole(thisUser.get("faculty").toString());
                 break;
         }
+        //disable action button
+        this.rolesPanelActionButton.setVisible(false);
+        //disable clear button
+        rolesPanelClearButton.setVisible(false);
     }
 
     /**
@@ -55,6 +59,8 @@ public class RolesPanel extends javax.swing.JPanel {
         menuComboBox = new javax.swing.JComboBox<>();
         returnToLoginButton = new javax.swing.JButton();
         menuComboBoxLabel = new javax.swing.JLabel();
+        rolesPanelActionButton = new javax.swing.JButton();
+        rolesPanelClearButton = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder("roles-panel"));
 
@@ -83,23 +89,43 @@ public class RolesPanel extends javax.swing.JPanel {
 
         menuComboBoxLabel.setText("Menu:");
 
+        rolesPanelActionButton.setText("Update Lesson Plan");
+        rolesPanelActionButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rolesPanelActionButtonActionPerformed(evt);
+            }
+        });
+
+        rolesPanelClearButton.setText("Clear");
+        rolesPanelClearButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rolesPanelClearButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(78, 78, 78)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 696, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(menuComboBoxLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(menuComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
-                        .addComponent(returnToLoginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(15, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(rolesPanelClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rolesPanelActionButton))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(78, 78, 78)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 696, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(47, 47, 47)
+                            .addComponent(menuComboBoxLabel)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(menuComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(38, 38, 38)
+                            .addComponent(returnToLoginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -112,7 +138,11 @@ public class RolesPanel extends javax.swing.JPanel {
                         .addComponent(returnToLoginButton)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rolesPanelActionButton)
+                    .addComponent(rolesPanelClearButton))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -135,26 +165,57 @@ public class RolesPanel extends javax.swing.JPanel {
         thisUserRole.processMenuOption(menuComboBox.getSelectedItem().toString());
     }//GEN-LAST:event_menuComboBoxActionPerformed
 
+    private void rolesPanelActionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rolesPanelActionButtonActionPerformed
+        // TODO add your handling code here:
+        
+       if(MainFrame.db.updateLessonPlan(rolesPanelTextArea.getText(), thisUser.get("faculty").toString())) {
+           clearTextArea();
+       }
+    }//GEN-LAST:event_rolesPanelActionButtonActionPerformed
+
+    private void rolesPanelClearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rolesPanelClearButtonActionPerformed
+        // TODO add your handling code here:
+        clearTextArea();
+    }//GEN-LAST:event_rolesPanelClearButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> menuComboBox;
     private javax.swing.JLabel menuComboBoxLabel;
     private javax.swing.JButton returnToLoginButton;
+    private javax.swing.JButton rolesPanelActionButton;
+    private javax.swing.JButton rolesPanelClearButton;
     private javax.swing.JTextArea rolesPanelTextArea;
     // End of variables declaration//GEN-END:variables
 
     private void initMenu(String userType) {
         switch (userType) {
             case "admin":
-                menuComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"create-new-faculty", "do some shit"}));
+                menuComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"create-new-faculty", "do something"}));
                 break;
             case "student":
-                menuComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"pay-fees"}));
+                menuComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"pay-fees", "enroll-in-course"}));
                 break;
             case "teacher":
                 menuComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"take-attendance", "view-lesson-plan"}));
                 break;
         }
     }
+    
+    public void setTextArea(String text){
+        this.rolesPanelTextArea.setText(text);
+        this.rolesPanelActionButton.setVisible(true);
+    }
+    public void setTextAreaB(String text){
+        this.rolesPanelTextArea.setText(text);
+        rolesPanelClearButton.setVisible(true);
+    }
+    public  void clearTextArea(){
+     this.rolesPanelTextArea.setText("");
+     this.rolesPanelActionButton.setVisible(false);
+     this.rolesPanelClearButton.setVisible(false);
+    }
+
+ 
 }

@@ -7,7 +7,7 @@ package NicholasEruba.vgc;
 
 /**
  *
- * @author Nicholas
+ * @author Nicholas 18630
  */
 public class AdminRole extends UserRole {
 

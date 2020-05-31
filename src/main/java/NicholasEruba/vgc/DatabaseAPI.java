@@ -11,6 +11,7 @@ import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.SetOptions;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
@@ -26,7 +27,7 @@ import java.util.concurrent.ExecutionException;
 
 /**
  *
- * @author Nicholas
+ * @author Nicholas Chibuike-Eruba 18630
  */
 //ADDDING A DOCUMENT
 //DocumentReference docRef = db.collection("users").document("alovelace");
@@ -82,25 +83,28 @@ public class DatabaseAPI {
 
     ///////CRUD OPERATIONS
     /////////////CREATE
-    boolean createFaculty(String facultyName) {
+    boolean createFaculty(String facultyName, String lessonPlan) {
         try {
             DocumentReference docRef = db.collection("faculties").document(facultyName);
             // Add document data  with user data using a hashmap
             Map<String, Object> data = new HashMap<>();
             data.put("name", facultyName);
+            data.put("lesson-plan", lessonPlan);
+            data.put("attendance", "default value");
 
             //asynchronously write data
             ApiFuture<WriteResult> result = docRef.set(data);
             //check for success
             if (result.get().getUpdateTime() != null) {
-                ErrorPopup.showMessage(false, "FACULTY CREATED", " faculty "+facultyName+" has been successfully created");
+                ErrorPopup.showMessage(false, "FACULTY CREATED", " faculty " + facultyName + " has been successfully created");
                 return true;
             }
         } catch (Exception e) {
-            ErrorPopup.showMessage(true, "COULD NOT ENROLL TEACHER", Arrays.toString(e.getStackTrace()));
+            ErrorPopup.showMessage(true, "COULD NOT CREATE FACULTY", Arrays.toString(e.getStackTrace()));
         }
         return false;
     }
+
     //add new teacher and their faculty to database
     boolean enrollAsTeacher(String emailUser, String password, String firstName, String lastName, String faculty) {
         try {
@@ -112,6 +116,7 @@ public class DatabaseAPI {
             data.put("lastname", lastName);
             data.put("email", emailUser);
             data.put("password", password);
+            data.put("faculty", faculty);
 
             //users collection
             Map<String, Object> dataUser = new HashMap<>();
@@ -120,12 +125,14 @@ public class DatabaseAPI {
             dataUser.put("email", emailUser);
             dataUser.put("password", password);
             dataUser.put("usertype", "teacher");
+            dataUser.put("faculty", faculty);
             //asynchronously write data
             ApiFuture<WriteResult> resultUser = docRefUsers.set(dataUser);
             ApiFuture<WriteResult> result = docRef.set(data);
             //check for success
             if (result.get().getUpdateTime() != null && resultUser.get().getUpdateTime() != null) {
                 System.out.println(result.get().getUpdateTime().toString() + resultUser.get().getUpdateTime().toString());
+                userType.put("id", docRef.getId());
                 userType = dataUser;
                 return true;
             }
@@ -146,6 +153,9 @@ public class DatabaseAPI {
             data.put("lastname", lastName);
             data.put("email", emailUser);
             data.put("password", password);
+            data.put("courses", new ArrayList<String>() {
+            });
+            data.put("id", docRef.getId());
 
             //users collection
             Map<String, Object> dataUser = new HashMap<>();
@@ -154,6 +164,7 @@ public class DatabaseAPI {
             dataUser.put("email", emailUser);
             dataUser.put("password", password);
             dataUser.put("usertype", "student");
+            dataUser.put("id", docRef.getId());
             //asynchronously write data
             ApiFuture<WriteResult> resultUser = docRefUsers.set(dataUser);
             ApiFuture<WriteResult> result = docRef.set(data);
@@ -165,7 +176,8 @@ public class DatabaseAPI {
                 return true;
             }
         } catch (Exception e) {
-            ErrorPopup.showMessage(true, "COULD NOT ENROLL STUDENT", Arrays.toString(e.getStackTrace()));
+            e.printStackTrace();
+            // ErrorPopup.showMessage(true, "COULD NOT ENROLL STUDENT", Arrays.toString(e.getStackTrace()));
         }
         return false;
     }
@@ -200,13 +212,16 @@ public class DatabaseAPI {
             QuerySnapshot querySnapshot = query.get();
             List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
             for (QueryDocumentSnapshot document : documents) {
-                System.out.println(document.getString("email"));
                 if (document.getString("email").equals(emailUser) && document.getString("password").equals(password)) {
                     userType.put("firstname", document.getString("firstname"));
                     userType.put("lastname", document.getString("lastname"));
                     userType.put("email", document.getString("email"));
                     userType.put("password", document.getString("password"));
                     userType.put("usertype", document.getString("usertype"));
+                    userType.put("id", document.getString("id"));
+                    if (document.getString("usertype").equals("teacher")) {
+                        userType.put("faculty", document.getString("faculty"));
+                    }
                     foundThisUser = true;
                     return foundThisUser;
                 }
@@ -217,7 +232,144 @@ public class DatabaseAPI {
         ErrorPopup.showMessage(true, "THE USER WAS NOT FOUND", "Please make sure the user and password is correct");
         return foundThisUser;
     }
+
+    String getLessonPlanFromDatabase(String facultyName) {
+        String lessonPlan = null;
+        try { // asynchronously retrieve all users
+            ApiFuture<QuerySnapshot> query = db.collection("faculties").get();
+            // ...
+            // query.get() blocks on response
+            QuerySnapshot querySnapshot = query.get();
+            List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
+            for (QueryDocumentSnapshot document : documents) {
+                if (document.getString("name").equals(facultyName)) {
+                    lessonPlan = document.getString("lesson-plan");
+                    System.out.println(document.getString("lesson-plan"));
+                    return lessonPlan;
+                }
+            }
+
+        } catch (InterruptedException | ExecutionException e) {
+            ErrorPopup.showMessage(true, "COULD NOT GET FACULTIES", Arrays.toString(e.getStackTrace()));
+        }
+
+        return lessonPlan;
+    }
+
+    ArrayList<String> getStudentsEnrolled(String courseName) {
+        ArrayList<String> students = new ArrayList<>();
+        try { // asynchronously retrieve all users
+            ApiFuture<QuerySnapshot> query = db.collection("students").get();
+            // ...
+            // query.get() blocks on response
+            QuerySnapshot querySnapshot = query.get();
+            List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
+            for (QueryDocumentSnapshot document : documents) {
+                for (String course : (ArrayList<String>) document.get("courses")) {
+                    if (course.equals(courseName)) {
+                        students.add(document.getString("firstname")+" "+document.getString("lastname"));
+                    }
+                }
+
+            }
+
+        } catch (InterruptedException | ExecutionException e) {
+            ErrorPopup.showMessage(true, "COULD NOT GET FACULTIES", Arrays.toString(e.getStackTrace()));
+        }
+        return students;
+    }
+    
+     String getAttendance(String facultyName) {
+        String attendance = null;
+        try { // asynchronously retrieve all users
+            ApiFuture<QuerySnapshot> query = db.collection("faculties").get();
+            // ...
+            // query.get() blocks on response
+            QuerySnapshot querySnapshot = query.get();
+            List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
+            for (QueryDocumentSnapshot document : documents) {
+                if (document.getString("name").equals(facultyName)) {
+                    attendance = document.getString("attendance");
+                    System.out.println(document.getString("attendance"));
+                    return attendance;
+                }
+            }
+
+        } catch (InterruptedException | ExecutionException e) {
+            ErrorPopup.showMessage(true, "COULD NOT GET FACULTIES", Arrays.toString(e.getStackTrace()));
+        }
+
+        return attendance;
+    }
+
     ////////////UPDATE
+    public boolean updateLessonPlan(String plan, String faculty) {
+        try {
+            DocumentReference docRef = db.collection("faculties").document(faculty);
+            // Add document data  with user data using a hashmap
+            Map<String, Object> data = new HashMap<>();
+            data.put("lesson-plan", plan);
+
+            //asynchronously write data
+            ApiFuture<WriteResult> result = docRef.update(data);
+            //check for success
+            if (result.get().getUpdateTime() != null) {
+                ErrorPopup.showMessage(false, "LESSON PLAN UPDATED", " faculty " + faculty + " lesson plan has been successfully updated");
+                return true;
+            }
+        } catch (Exception e) {
+            ErrorPopup.showMessage(true, "COULD NOT UPDATE LESSON PLAN", Arrays.toString(e.getStackTrace()));
+        }
+        return false;
+    }
+
+    public boolean enrollStudentInCourses(String userId, ArrayList<String> facultiesEnrolled) {
+        try {
+            System.out.println("ok im actually inside here");
+            System.out.println(userId);
+            DocumentReference docRef = db.collection("students").document(userId);
+            // Add document data  with user data using a hashmap
+            Map<String, Object> data = new HashMap<>();
+            Map<String, Object> empty = new HashMap<>();
+            data.put("courses", facultiesEnrolled);
+            empty.put("courses", new ArrayList<String>() {
+            });
+
+            System.out.println(docRef);
+
+            //asynchronously write data
+            ApiFuture<WriteResult> result = docRef.update(data);
+            //check for success
+            if (result.get().getUpdateTime() != null) {
+                ErrorPopup.showMessage(false, "COURSE ENROLLMENT UPDATED", " courses " + facultiesEnrolled.toString() + " has been enrolled");
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            //ErrorPopup.showMessage(true, "COULD NOT UPDATE COURSE ENROLLMENT", Arrays.toString(e.getStackTrace()));
+        }
+        return false;
+    }
+    
+    boolean postAttendance(String faculty, String attendanceValue) {
+         try {
+            DocumentReference docRef = db.collection("faculties").document(faculty);
+            // Add document data  with user data using a hashmap
+            Map<String, Object> data = new HashMap<>();
+            data.put("attendance", attendanceValue);
+
+            //asynchronously write data
+            ApiFuture<WriteResult> result = docRef.update(data);
+            //check for success
+            if (result.get().getUpdateTime() != null) {
+                ErrorPopup.showMessage(false, "ATTENDANCE UPDATED", " faculty " + faculty + " attendance has been successfully updated");
+                return true;
+            }
+        } catch (Exception e) {
+            ErrorPopup.showMessage(true, "COULD NOT UPDATE ATTENDANCE", Arrays.toString(e.getStackTrace()));
+        }
+        return false;
+    }
     ////////////DELETE
 
     private void initializeDatabase() {
@@ -238,5 +390,8 @@ public class DatabaseAPI {
 
     }
 
+   
+
     
+
 }

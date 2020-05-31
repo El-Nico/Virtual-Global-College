@@ -5,12 +5,11 @@
  */
 package NicholasEruba.vgc;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
  *
- * @author Nicholas
+ * @author Nicholas Chibuike-Eruba 18630
  */
 public class PopupFrame extends MainFrame{
     protected void display(JPanel contentPane, String title){

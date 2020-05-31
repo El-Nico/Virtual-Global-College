@@ -7,7 +7,7 @@ package NicholasEruba.vgc;
 
 /**
  *
- * @author Nicholas
+ * @author Nicholas Chibuike-Eruba 18630
  */
 public class CreateNewFaculty extends javax.swing.JPanel {
 
@@ -30,6 +30,9 @@ public class CreateNewFaculty extends javax.swing.JPanel {
         facultyNameLabel = new javax.swing.JLabel();
         facultyNameTextField = new javax.swing.JTextField();
         createButton = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        lessonPlanTextArea = new javax.swing.JTextArea();
+        lessonPlanLabel = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder("Create New Faculty"));
 
@@ -42,6 +45,13 @@ public class CreateNewFaculty extends javax.swing.JPanel {
             }
         });
 
+        lessonPlanTextArea.setColumns(20);
+        lessonPlanTextArea.setRows(5);
+        lessonPlanTextArea.setText("monday 9 - 12 - computer fundamentals");
+        jScrollPane1.setViewportView(lessonPlanTextArea);
+
+        lessonPlanLabel.setText("Lesson Plan");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -49,12 +59,16 @@ public class CreateNewFaculty extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(createButton)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(facultyNameLabel)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(facultyNameLabel)
+                            .addComponent(lessonPlanLabel))
                         .addGap(18, 18, 18)
-                        .addComponent(facultyNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(createButton))
-                .addContainerGap(144, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(facultyNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -63,15 +77,19 @@ public class CreateNewFaculty extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(facultyNameTextField)
                     .addComponent(facultyNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(46, 46, 46)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lessonPlanLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addComponent(createButton)
-                .addContainerGap(177, Short.MAX_VALUE))
+                .addGap(52, 52, 52))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
         // TODO add your handling code here:
-        if(MainFrame.db.createFaculty(facultyNameTextField.getText())){
+        if(MainFrame.db.createFaculty(facultyNameTextField.getText(), lessonPlanTextArea.getText())){
             MainFrame.popupFrame.dismiss();
         }
     }//GEN-LAST:event_createButtonActionPerformed
@@ -81,5 +99,8 @@ public class CreateNewFaculty extends javax.swing.JPanel {
     private javax.swing.JButton createButton;
     private javax.swing.JLabel facultyNameLabel;
     private javax.swing.JTextField facultyNameTextField;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lessonPlanLabel;
+    private javax.swing.JTextArea lessonPlanTextArea;
     // End of variables declaration//GEN-END:variables
 }

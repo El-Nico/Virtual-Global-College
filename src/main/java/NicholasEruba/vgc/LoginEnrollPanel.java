@@ -13,7 +13,7 @@ import javax.swing.DefaultComboBoxModel;
 
 /**
  *
- * @author Nicholas
+ * @author Nicholas Chibuike-Eruba 18630
  */
 public class LoginEnrollPanel extends javax.swing.JPanel {
 
@@ -206,7 +206,10 @@ public class LoginEnrollPanel extends javax.swing.JPanel {
 //                    MainFrame.setPane(new TeacherFacultyPanel());
 //                    break;
 //            }
-            MainFrame.setPane(new RolesPanel((HashMap) MainFrame.db.getUserType()));
+            System.out.println((HashMap) MainFrame.db.getUserType());
+            RolesPanel x = new RolesPanel((HashMap) MainFrame.db.getUserType());
+            MainFrame.rolesPanel=x;
+            MainFrame.setPane(x); 
         }
     }//GEN-LAST:event_submitButtonActionPerformed
 

@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author Nicholas
+ * @author Nicholas Chibuike-Eruba 18630
  */
 public class MainFrame extends javax.swing.JFrame {
 
@@ -57,6 +57,7 @@ public class MainFrame extends javax.swing.JFrame {
     static MainFrame mainframe = new MainFrame();
     static DatabaseAPI db = new DatabaseAPI();
     static PopupFrame popupFrame = new PopupFrame();
+    static RolesPanel rolesPanel;
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -114,9 +115,9 @@ public class MainFrame extends javax.swing.JFrame {
         frame.setVisible(true);
     }
 
-    public static void launchPopup(String functionality) {
-        popupFrame.display(new TakeAttendanceView(), functionality);
-    }
+//    public static void launchPopup(String functionality) {
+//        popupFrame.display(new TakeAttendanceView(), functionality);
+//    }
 
     private void furtherInitComponents() {
         //center the frame on display

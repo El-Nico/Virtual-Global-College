@@ -7,7 +7,7 @@ package NicholasEruba.vgc;
 
 /**
  *
- * @author Nicholas
+ * @author Nicholas Chibuike-Eruba 18630
  */
 public class StudentRole extends UserRole {
 
@@ -16,6 +16,9 @@ public class StudentRole extends UserRole {
         switch (option) {
             case "pay-fees":
                 System.out.println("paid fees here");
+            case "enroll-in-course":
+               MainFrame.popupFrame.display(new EnrollInCourse(), "Enroll In a Course");
+                System.out.println("enrolled in course here");
                 break;
         }
     }
